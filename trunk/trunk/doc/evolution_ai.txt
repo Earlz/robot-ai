@@ -1,0 +1,135 @@
+Copyright Jordan Earls <http://Earlz.biz.tm>
+All rights reserved.
+See "copyright.txt" for information on the copyright of this project and file
+This file is part of the "Robot AI" project.
+
+
+
+The logic instruction set:
+
+Though a complete opcode is one-to-four bytes, I will organize them by high nibble and low nibble. If the opcode is more than one byte, then the following bytes will be organized by byte
+
+Rather than bring up an unknown opcode exception, an unknown opcode will just be ignored(though it can be logged by option)
+
+Basically, this is an instruction set for describing basic logic. For the purpose of this project, we won't just provide logic instructions, but we will also have instructions to fetch enviromental info, like "if_food_insight" or things like that..
+
+This instruction set will never be contained on an actual CPU, it is always interpreted or possibly even compiled...
+
+
+Instruction Groups:
+(numbers in hex)
+if:
+high nibble=0
+--this is used as a high level IF instruction..if the statement is true, then the following block is processed, if it isn't, then the code is skipped until a end_if(0x0F)
+
+specific instructions:
+if_registers:
+low_nibble=0
+--This compares two registers. The next byte is what the operation is(equal, greater than, ect) and the byte after that contains the registers to be compared; high nibble register compared to low nibble register..
+
+if_being_attacked:
+low_nibble=1
+--this is evaluated to true if the robot is being attacked
+
+if_food_infront:
+low_nibble=2
+--this is evaluated to true if food is within 20 units infront of the robot
+
+if_robot_infront:
+low_nibble=3
+--this is evaluated to true if a robot is within 20 units in front of the robot
+
+if_robot_attack:
+low_nibble=4
+--this is evaluated to true if 2 or more robots are attacking each other in front of robot within 20 units
+
+if_wall:
+low_nibble=5
+--this is evaluated to true if the limit of the world is directly in front of the robot
+
+---------
+get:
+high nibble=1
+--This will obtain certain values and put them into the chosen registers..
+--for all of these, there is a byte following the opcode with the low nibble being which register to use
+get_hp:
+low_nibble=0
+--This will get the current hp. When first "born" the hp will be 50. Hp has a limit of 75. Eating a food packet will increment it by 20. Eating a dead robot will increment it by 10. Once this reaches 0, the robot dies. You can be attacked  by other robots also. launching an attack will cause the hp to decrement twice as quickly as normal for that turn.  attack power and the amount hp decrements have a direct relationship. Attack power can be anywhere from 1 to 16. Hp decrements by the amount of attack power divided by 2. The decrementor is always at least 1 however, so with an attack power of 1, you lose 1 hp every turn.
+
+
+
+
+
+--------
+move:
+high_nibble=2
+--this set will physically move your robot
+--This set of instructions count as a "turn" After executing one of these instructions, the next robot in line will get processing time.
+move_forward:
+low_nibble=0
+--this will move forward one block
+
+move_rotate_CW:
+low_nibble=1
+--this will rotate clockwise
+
+move_rotate_ccw:
+low_nibble=2
+--this will rotate counter-clockwise
+
+move_sprint:
+low_nibble=3
+--This will move forward at an accelerated rate. The byte following this opcode will have the register to use in its low nibble. The register will contain how many units to move forward. For every unit, hp will decrement by 8. It allows you to move an unlimited amount of units, though if you move more than your hp allows, you will simply die.
+
+
+
+
+
+-----------------
+Other stuff concerned with this AI thing..
+
+------
+mating:
+For Robots there is a "mate" command that produces a new robot. If the limit of robots is reached, then the mate command is ignored.
+Each robot has a "mating code" this is a single byte value. Robots can only mate with other robots that have the same code, negated form of the code, or the number + or - 0x44. The attacking power is directly derived from the mating code.(this allows for recessiveness and dominance)
+------
+attacking:
+An attack will decrease the hp of the robot directly in front of the attacking robot. An Attack will cause the attacker to use 2 extra hp for that turn.
+
+------
+Inheritance:
+Robots inherit what there parents had. Because a set of opcodes(the brain) just isn't easy to merge, it will randomly get one or the other. Attack power is done in a genetic type way..
+low attack power(below 5) is dominant, high attack power(at or above 5) is recessive. These genes are saved in each robot..
+
+Mutations are done at random. In a mutation, nothing stays the same. The brain is generated out of a random 512 bytes, the attack power is random, the genetics are pure(pure bred).
+Mutations are the same as those robots produced when first started...
+
+-------
+Food:
+The robots need food in order to survive. Food comes in the form of food packets, and dead robots. Food packets provide 30 hp. Dead robots provide 15 hp. In order to eat a food packet or dead robot, it must be right in front of the consumer.
+
+------
+Life:
+There is a turn limit, this is refered to as the "life" variable. It is decremented with each turn and can never be incremented. Once life reaches 0, the robot dies.
+
+------
+Visual:
+This is where I am not for sure on..Making a "is food in front of me" type function is easy..you just search in a triangular area, but actually locating this food in order to go to it is where I'm lost..
+proposals:
+1. have just something for locating the closest object. Like have a "Is food right" and "Is food left" type thing... 
+2. Another is to have a positioning system, like have something like "The food is at (x,y)" with x and y being relational to where the robot currently is..
+3. use kindof the above except for give every robot an ID then let the robots query where a robot is in (x,y) and also have a reverse query system as well..
+4.
+
+Currently, I think #1 is best.
+
+
+
+
+---------------
+Scratch Pad..
+
+I should condense the instruction set. This way I can just do a random range function and not worry..plus this will make the number of combinations less, so we can maybe get a good AI early...
+
+
+
