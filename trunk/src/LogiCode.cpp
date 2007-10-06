@@ -25,6 +25,11 @@ unsigned int list_count;
 
 
 void unknown(){
+	uint32_t temp;
+	uint32_t temp2;
+	temp=crobot->GetIP();
+	temp2=crobot->GetCurrentByte();
+	throw(unknown_op_exp("unknown opcode",temp,temp2));
 	cout <<"Unknown Opcode!" << endl;
 	cout <<"Opcode IP: " << crobot->GetIP()<<endl;
 	cout <<"Opcode Byte: 0x";
@@ -32,7 +37,7 @@ void unknown(){
 	cout <<endl;
 	//SDL_Delay(1000);
 	crobot->turn=0;
-	for(;;){} //temp
+
 }
 
 /**Instructions**/
@@ -308,9 +313,7 @@ int DoBrain(Robot &target){
 int Error(unsigned int code){ //this should eventually be replaced with exceptions
 	switch(code){
 		case IP_OVERFLOW:
-		cout << "IP Overflow error"<<endl<<"No handling at this time!"<<endl<<"Infinite Loop:" << endl;
-		for(;;){}
-
+		throw ip_over_exp("IP Overflow error");
 		break;
 		default:
 		cout << "Undefined Error"<<endl<<"Error Code:"<<code<<endl;

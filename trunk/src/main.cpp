@@ -491,8 +491,18 @@ int DoRobots(void *trash){
     cout << endl <<"done!";
 	display.Clear();
 	DrawBorder();
-	LogiCode::DoRobot();
-
+	try{
+		LogiCode::DoRobot();
+	}
+	catch (unknown_op_exp t){
+		cout << t.msg<<endl;
+		exit(1);
+	}
+    catch(...){
+		cout <<"an undefined error has occured"<<endl<<"Exiting...";
+		quit_all=1;
+		for(;;){}
+    }
 
 
 	return 0;
@@ -552,7 +562,7 @@ int main(int argc,char **argv)
 	}
 	*/
     robots_thread=SDL_CreateThread(DoRobots,0);
-    Thread_Messaging(NULL);
+	Thread_Messaging(NULL);
 
 	//PixelPointers=new void*[display.screen->w*display.screen->h*1];
 

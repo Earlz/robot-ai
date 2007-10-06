@@ -10,8 +10,8 @@ This file is part of the "Robot AI" project.
 const unsigned int BRAIN_SIZE=512;
 #define SPEED_UP
 //#define LOW_MEMORY
-const unsigned int MAX_ROBOTS=100000;
-const unsigned int MIN_ROBOTS=50000;
+const unsigned int MAX_ROBOTS=10000;
+const unsigned int MIN_ROBOTS=5000;
 const unsigned int HP_LIMIT=100;
 const unsigned int HP_INIT=75;
 const unsigned int MAX_LIFE=200;
@@ -33,13 +33,16 @@ const unsigned int BAD_ARGUMENT=2;
 const unsigned int I_DIED=4;
 const unsigned int GENE_OVERRUN=8;
 
-//Comparison codes
+
+/***LogiCode stuff***/
+
+/**Comparison codes**/
 const unsigned char EQUALS=1;
 const unsigned char NOT_EQUALS=2;
 const unsigned char GREATER=4; //greater and less can be OR'd with EQUALS
 const unsigned char LESS=8;
 
-//misc
+/**misc. stuff**/
 const unsigned char ENDIF_CODE=0xDF;
 const unsigned char ELSE_CODE=0xDE;
 const unsigned char IF_CODE=0x20; //this is only the base code..

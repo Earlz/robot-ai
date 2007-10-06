@@ -21,6 +21,24 @@ namespace LogiCode{ //stupid f compiler..can't declare the whole logicode namesp
 int Error(unsigned int code);
 
 };
+
+/**Exceptions**/
+class ip_over_exp{
+	public:
+	ip_over_exp(std::string message){msg=message;}
+	std::string msg;
+};
+
+class unknown_op_exp{
+	public:
+	std::string msg;
+	uint32_t opip;
+	uint8_t opbyte;
+	unknown_op_exp(std::string message,uint32_t opip_, uint8_t opbyte_){msg=message;opip=opip_;opbyte=opbyte_;}
+};
+
+
+
 class Screen{
 
 	public:
