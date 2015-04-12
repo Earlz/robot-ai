@@ -1,0 +1,9 @@
+This is an experimental project using "robots" with a randomly generated "brain."
+
+Basically, thousands of randomly generated robots are made and to keep living, they must get food. If they do not get food in a designated amount of "turns" then they die and disappear from the environment. The robot's logic is made from a special instruction set called Logic Code. This is a very "strange" instruction set, but it fits it's purpose. Logic Code allows for the robot to do simple maths, store things in it's brain's memory, move, mate, eat, and see what is around them...
+
+A robot has certain genes that are set when they are created, and they are read-only from the robot. These are designed to set the robots behavior, but due to their brain being randomly generated, they could do other things, or they could do nothing...
+
+The robots can mate and inherit genes from their parents. There are some robots that are generated completely randomly however(for instance, if all the robots die, this will happen)
+
+Mutations also happen with the robots. This is so that new robots are created, and creating more chances for evolution...
